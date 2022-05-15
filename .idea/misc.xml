@@ -3,7 +3,45 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3535" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/btn_connect.xml" value="0.1595" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/btn_connect_disabled.xml" value="0.1595" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/btn_connect_enabled.xml" value="0.1595" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/btn_connect_focused.xml" value="0.1595" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/btn_connect_pressed.xml" value="0.1595" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/comment_background.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/comment_entry_background.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/comment_message_background.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/content_background.xml" value="0.205" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/header_background.xml" value="0.33" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_computer.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_keyboard.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3535" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_pointer.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_presentation.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/ic_touchpad.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/status_connected.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/touchpad_background.xml" value="0.2615" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/touchpad_buttons_background.xml" value="0.2615" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_browser.xml" value="0.33" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_connect.xml" value="0.365625" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_desk_control.xml" value="0.33" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_presentation_control.xml" value="0.365625" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_settings.xml" value="0.3070652173913043" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_airmouse.xml" value="0.33" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_keyboard.xml" value="0.3" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_simple_desk_control.xml" value="0.3" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_touchpad.xml" value="0.20921052631578949" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_touchpad.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/known_device_entry.xml" value="0.3070652173913043" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/save_device_entry.xml" value="0.3070652173913043" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/slide_comment_entry.xml" value="0.365625" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/slide_content_layout.xml" value="0.365625" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/menu/menu_toolbar.xml" value="0.365625" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/xml/app_settings.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/xml/root_preferences.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

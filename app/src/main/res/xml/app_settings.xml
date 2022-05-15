@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Cursor">
+
+        <SeekBarPreference android:title="Airmouse sensitivity"
+            android:key="airmouse_sensitivity"
+            android:defaultValue="50"
+            android:max="100"
+            app:showSeekBarValue="true"/>
+
+        <SeekBarPreference android:title="Touchpad sensitivity"
+            android:key="touchpad_sensitivity"
+            android:defaultValue="50"
+            android:max="100"
+            app:showSeekBarValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Presentation">
+
+        <CheckBoxPreference android:title="Hook volume buttons"
+            android:key="volume_hook"
+            android:summary="Use volume control buttons to switch between slides"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
