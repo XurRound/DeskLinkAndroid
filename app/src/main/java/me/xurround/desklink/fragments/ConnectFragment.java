@@ -3,6 +3,7 @@ package me.xurround.desklink.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class ConnectFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_connect, container, false);
 
         Button openSearchSettingsButton = view.findViewById(R.id.openSearchSettingsButton);
+        Button scanQRButton = view.findViewById(R.id.connect_qr_button);
         LinearLayout ll = view.findViewById(R.id.connectSlideHeader);
 
         Spinner conModeSpinner = view.findViewById(R.id.connection_mode_spn);
@@ -38,6 +40,11 @@ public class ConnectFragment extends Fragment
         settingsSlideAnimator.setOnToggleListener(conModeSpinner::setEnabled);
 
         openSearchSettingsButton.setOnClickListener(v -> settingsSlideAnimator.toggle());
+
+        scanQRButton.setOnClickListener(v ->
+        {
+            Navigation.findNavController(view).navigate(R.id.action_connect_to_qr);
+        });
 
         return view;
     }

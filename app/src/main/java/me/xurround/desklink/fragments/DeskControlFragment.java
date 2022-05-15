@@ -36,7 +36,7 @@ public class DeskControlFragment extends Fragment
         BottomNavigationView deskToolbar = view.findViewById(R.id.desk_toolbar);
 
         deskToolbar.setSelectedItemId(R.id.tool_touchpad);
-        navigate(new TouchpadToolFragment());
+        navigate(new TouchpadToolFragment(), false);
 
         deskToolbar.setOnItemSelectedListener(item ->
         {
@@ -61,13 +61,21 @@ public class DeskControlFragment extends Fragment
 
     private void navigate(Fragment fragment)
     {
+        navigate(fragment, true);
+    }
+
+    private void navigate(Fragment fragment, boolean animate)
+    {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(
-                R.anim.slide_in_left,
-                R.anim.slide_out_right,
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-        );
+        if (animate)
+        {
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+            );
+        }
         transaction.replace(R.id.tools_container, fragment);
         transaction.commit();
     }

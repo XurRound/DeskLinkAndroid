@@ -4,8 +4,6 @@
     <string-array name="connection_modes">
         <item>Wi-Fi Server</item>
         <item>Wi-Fi Direct</item>
-        <item>Bluetooth Server</item>
-        <item>Bluetooth Serverless</item>
     </string-array>
 
 </resources>

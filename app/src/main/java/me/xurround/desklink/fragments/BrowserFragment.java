@@ -51,7 +51,7 @@ public class BrowserFragment extends Fragment
         kdView.addItemDecoration(divider);
         kdView.setAdapter(new KnownDeviceListAdapter(kds, kd ->
         {
-            Navigation.findNavController(view).navigate(R.id.action_browser_to_desc_control);
+            Navigation.findNavController(view).navigate(R.id.action_browser_to_desk_control);
         }));
         mvm.getKnownDevicesMD().observe(getViewLifecycleOwner(), knownDevices ->
         {
