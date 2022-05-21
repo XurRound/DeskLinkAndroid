@@ -27,6 +27,31 @@ public class AppSettings
         gson = new Gson();
     }
 
+    public boolean checkFirstRun()
+    {
+        if (sharedPreferences.getBoolean("FIRST_RUN", true))
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("FIRST_RUN", false);
+            editor.apply();
+            return true;
+        }
+        return false;
+    }
+
+    public String getIdentifier()
+    {
+        if (checkFirstRun())
+        {
+            String uid = Helpers.generateUID();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("UID", uid);
+            editor.apply();
+            return uid;
+        }
+        return sharedPreferences.getString("UID", Helpers.generateUID());
+    }
+
     public void saveKnownDevices(List<KnownDevice> devices)
     {
         SharedPreferences.Editor editor = sharedPreferences.edit();

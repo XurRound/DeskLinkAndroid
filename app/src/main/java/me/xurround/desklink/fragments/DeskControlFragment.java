@@ -20,7 +20,6 @@ import me.xurround.desklink.fragments.tools.AirmouseToolFragment;
 import me.xurround.desklink.fragments.tools.KeyboardToolFragment;
 import me.xurround.desklink.fragments.tools.SimpleDeskControlToolFragment;
 import me.xurround.desklink.fragments.tools.TouchpadToolFragment;
-import me.xurround.desklink.logic.network.TcpSender;
 import me.xurround.desklink.viewmodels.DeskControlViewModel;
 
 public class DeskControlFragment extends Fragment

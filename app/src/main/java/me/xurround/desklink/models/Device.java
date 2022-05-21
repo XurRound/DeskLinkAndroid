@@ -36,7 +36,7 @@ public class Device
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Device device = (Device) o;
-        return  Objects.equals(id, device.id) && Objects.equals(name, device.name) && Objects.equals(ipAddress, device.ipAddress);
+        return Objects.equals(id, device.id) && Objects.equals(name, device.name) && Objects.equals(ipAddress, device.ipAddress);
     }
 
     @Override

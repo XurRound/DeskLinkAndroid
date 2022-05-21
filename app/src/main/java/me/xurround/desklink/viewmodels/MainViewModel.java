@@ -17,12 +17,18 @@ public class MainViewModel extends AndroidViewModel
 {
     private final MutableLiveData<List<KnownDevice>> knownDevices;
 
+    private AppSettings settings;
+
     public MainViewModel(Application application)
     {
         super(application);
 
+        settings = AppSettings.getInstance(application.getApplicationContext());
+
+        settings.getIdentifier();
+
         knownDevices = new MutableLiveData<>();
-        knownDevices.setValue(AppSettings.getInstance(getApplication().getApplicationContext()).loadKnownDevices());
+        knownDevices.setValue(settings.loadKnownDevices());
     }
 
     public void setKnownDevices(List<KnownDevice> devices)
