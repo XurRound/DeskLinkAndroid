@@ -4,14 +4,14 @@ public class KnownDevice extends Device
 {
     private String description = "";
 
-    public KnownDevice(String name, String btName, String lastSeenIP, boolean available)
+    public KnownDevice(String id, String name, String lastSeenIP)
     {
-        super(name, btName, lastSeenIP, available);
+        super(id, name, lastSeenIP);
     }
 
-    public KnownDevice(String name, String btName, String lastSeenIP, boolean available, String description)
+    public KnownDevice(Device device, String description)
     {
-        this(name, btName, lastSeenIP, available);
+        this(device.getId(), device.getName(), device.getIpAddress());
         setDescription(description);
     }
 

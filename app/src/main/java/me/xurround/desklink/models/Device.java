@@ -1,18 +1,18 @@
 package me.xurround.desklink.models;
 
+import java.util.Objects;
+
 public class Device
 {
+    private final String id;
     private final String name;
-    private final String btName;
-    private final String lastSeenIP;
-    private final boolean available;
+    private final String ipAddress;
 
-    public Device(String name, String btName, String lastSeenIP, boolean available)
+    public Device(String id, String name, String ipAddress)
     {
+        this.id = id;
         this.name = name;
-        this.btName = btName;
-        this.lastSeenIP = lastSeenIP;
-        this.available = available;
+        this.ipAddress = ipAddress;
     }
 
     public String getName()
@@ -20,18 +20,28 @@ public class Device
         return name;
     }
 
-    public String getBtName()
+    public String getIpAddress()
     {
-        return btName;
+        return ipAddress;
     }
 
-    public String getLastSeenIP()
+    public String getId()
     {
-        return lastSeenIP;
+        return id;
     }
 
-    public boolean isAvailable()
+    @Override
+    public boolean equals(Object o)
     {
-        return available;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Device device = (Device) o;
+        return  Objects.equals(id, device.id) && Objects.equals(name, device.name) && Objects.equals(ipAddress, device.ipAddress);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, ipAddress);
     }
 }

@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import me.xurround.desklink.R;
 import me.xurround.desklink.adapters.KnownDeviceListAdapter;
+import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.models.KnownDevice;
 import me.xurround.desklink.viewmodels.MainViewModel;
 
@@ -51,7 +52,10 @@ public class BrowserFragment extends Fragment
         kdView.addItemDecoration(divider);
         kdView.setAdapter(new KnownDeviceListAdapter(kds, kd ->
         {
-            Navigation.findNavController(view).navigate(R.id.action_browser_to_desk_control);
+            Bundle bundle = new Bundle();
+            bundle.putString("ADDRESS", kd.getIpAddress());
+            bundle.putString("NAME", kd.getName());
+            Navigation.findNavController(view).navigate(R.id.action_browser_to_desk_control, bundle);
         }));
         mvm.getKnownDevicesMD().observe(getViewLifecycleOwner(), knownDevices ->
         {
@@ -59,6 +63,7 @@ public class BrowserFragment extends Fragment
             kds.addAll(knownDevices);
             Objects.requireNonNull(kdView.getAdapter()).notifyItemRangeChanged(0, knownDevices.size());
         });
+        mvm.setKnownDevices(AppSettings.getInstance(requireContext()).loadKnownDevices());
 
         connectDeviceButton.setOnClickListener(v ->
         {

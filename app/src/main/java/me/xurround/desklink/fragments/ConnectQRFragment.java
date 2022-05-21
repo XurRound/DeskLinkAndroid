@@ -23,6 +23,8 @@ import me.xurround.desklink.R;
 
 public class ConnectQRFragment extends Fragment
 {
+    private CodeScanner codeScanner;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -38,7 +40,7 @@ public class ConnectQRFragment extends Fragment
 
         CodeScannerView scannerView = view.findViewById(R.id.scanner_view);
         scannerView.setFlashButtonVisible(false);
-        CodeScanner codeScanner = new CodeScanner(requireContext(), scannerView);
+        codeScanner = new CodeScanner(requireContext(), scannerView);
         List<BarcodeFormat> formats = new ArrayList<>();
         formats.add(BarcodeFormat.QR_CODE);
         codeScanner.setFormats(formats);
@@ -57,5 +59,13 @@ public class ConnectQRFragment extends Fragment
         }).launch(Manifest.permission.CAMERA);
 
         return view;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        codeScanner.stopPreview();
+        codeScanner.releaseResources();
     }
 }

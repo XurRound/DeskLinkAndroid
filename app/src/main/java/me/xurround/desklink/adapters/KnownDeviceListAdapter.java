@@ -40,7 +40,7 @@ public class KnownDeviceListAdapter extends RecyclerView.Adapter<KnownDeviceList
     {
         KnownDevice device = devices.get(position);
         holder.nameTV.setText(device.getName());
-        holder.ipTV.setText(device.getLastSeenIP());
+        holder.ipTV.setText(device.getIpAddress());
         holder.descTV.setText(device.getDescription());
         holder.connectBtn.setOnClickListener(v ->
         {
