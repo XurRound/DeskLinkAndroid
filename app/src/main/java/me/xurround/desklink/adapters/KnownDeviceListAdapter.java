@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import me.xurround.desklink.R;
 import me.xurround.desklink.interfaces.ConnectClickListener;
@@ -41,7 +42,10 @@ public class KnownDeviceListAdapter extends RecyclerView.Adapter<KnownDeviceList
         KnownDevice device = devices.get(position);
         holder.nameTV.setText(device.getName());
         holder.ipTV.setText(device.getIpAddress());
-        holder.descTV.setText(device.getDescription());
+        if (Objects.equals(device.getDescription(), ""))
+            holder.descTV.setHeight(0);
+        else
+            holder.descTV.setText(device.getDescription());
         holder.connectBtn.setOnClickListener(v ->
         {
             if (connectClickListener != null)

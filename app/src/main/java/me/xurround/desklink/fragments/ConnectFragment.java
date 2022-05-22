@@ -1,6 +1,7 @@
 package me.xurround.desklink.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,10 +10,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import java.util.List;
 
 import me.xurround.desklink.R;
 import me.xurround.desklink.adapters.DeviceListAdapter;
+import me.xurround.desklink.interfaces.RegisterCallback;
 import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.logic.ui.HeightAnimator;
 import me.xurround.desklink.models.Device;
@@ -61,19 +65,63 @@ public class ConnectFragment extends Fragment
             Navigation.findNavController(view).navigate(R.id.action_connect_to_qr);
         });
 
+        viewModel = new ViewModelProvider(requireActivity()).get(ConnectViewModel.class);
+
+        Handler handler = new Handler();
+
         RecyclerView devicesList = view.findViewById(R.id.devices_list);
         devicesList.setLayoutManager(new LinearLayoutManager(getContext()));
         List<Device> discoveredDevices = new ArrayList<>();
         DeviceListAdapter dlAdapter = new DeviceListAdapter(discoveredDevices, device ->
         {
             List<KnownDevice> knownDevices = AppSettings.getInstance(requireContext()).loadKnownDevices();
-            knownDevices.add(new KnownDevice(device, "LOL"));
-            AppSettings.getInstance(requireContext()).saveKnownDevices(knownDevices);
-            Toast.makeText(getContext(), "Connecting to: " + device.getName(), Toast.LENGTH_SHORT).show();
+            viewModel.beginRegister(device, new RegisterCallback()
+            {
+                @Override
+                public void onSuccess()
+                {
+                    handler.post(() ->
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                        EditText descText = new EditText(requireContext());
+                        LinearLayout linearLayout = new LinearLayout(requireContext());
+                        linearLayout.addView(descText);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins(40, 20, 40, 20);
+                        descText.setLayoutParams(layoutParams);
+                        builder.setView(linearLayout);
+                        builder.setCancelable(false);
+                        builder.setTitle("New device");
+                        builder.setMessage("Please, provide description for " + device.getName());
+                        builder.setPositiveButton("Add", (d, w) ->
+                        {
+                            knownDevices.add(new KnownDevice(device, descText.getText().toString()));
+                            AppSettings.getInstance(requireContext()).saveKnownDevices(knownDevices);
+                            Toast.makeText(getContext(), "Successfully added " + device.getName(), Toast.LENGTH_SHORT).show();
+                        });
+                        builder.setNegativeButton("Cancel", (d, w) -> { });
+                        builder.show();
+                    });
+                }
+
+                @Override
+                public void onFailure()
+                {
+                    handler.post(() ->
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                        builder.setCancelable(true);
+                        builder.setTitle("New device");
+                        builder.setMessage("Request rejected!");
+                        builder.setPositiveButton("Ok", (d, w) -> {  });
+                        builder.show();
+                    });
+                }
+            });
         });
         devicesList.setAdapter(dlAdapter);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(ConnectViewModel.class);
+
         viewModel.getDiscoveredDevices().observe(getViewLifecycleOwner(), devices ->
         {
             discoveredDevices.clear();

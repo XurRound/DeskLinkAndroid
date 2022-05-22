@@ -88,7 +88,8 @@ public class TouchpadToolFragment extends Fragment
                     {
                         viewModel.sendData(new byte[]
                         {
-                            (byte)0xF0, (byte)(-dX >> 8),
+                            (byte)0xF0,
+                            (byte)(-dX >> 8),
                             (byte)(-dX & 0xFF),
                             (byte)(-dY >> 8),
                             (byte)(-dY & 0xFF)

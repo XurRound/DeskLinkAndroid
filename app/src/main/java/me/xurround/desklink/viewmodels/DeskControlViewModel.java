@@ -5,7 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import me.xurround.desklink.interfaces.ConnectCallbackListener;
+import me.xurround.desklink.interfaces.ConnectCallback;
+import me.xurround.desklink.interfaces.OnHardwareKeyEvent;
 import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.logic.network.NetworkClient;
 
@@ -18,11 +19,12 @@ public class DeskControlViewModel extends AndroidViewModel
         super(application);
     }
 
+    private OnHardwareKeyEvent hardwareKeyEventListener;
+
     public void setupConnection(String ipAddress, int port)
     {
-        networkClient = new NetworkClient(ipAddress, port);
-        Log.d("VM", AppSettings.getInstance(getApplication().getApplicationContext()).getIdentifier());
-        networkClient.connect(AppSettings.getInstance(getApplication().getApplicationContext()).getIdentifier(), new ConnectCallbackListener()
+        networkClient = new NetworkClient(ipAddress, port, AppSettings.getInstance(getApplication().getApplicationContext()).getIdentifier());
+        networkClient.connect(new ConnectCallback()
         {
             @Override
             public void onSuccess()
@@ -36,6 +38,16 @@ public class DeskControlViewModel extends AndroidViewModel
                 Log.d("DCVM", "Failed!");
             }
         });
+    }
+
+    public OnHardwareKeyEvent getHardwareKeyEventListener()
+    {
+        return hardwareKeyEventListener;
+    }
+
+    public void setHardwareKeyEventListener(OnHardwareKeyEvent hardwareKeyEventListener)
+    {
+        this.hardwareKeyEventListener = hardwareKeyEventListener;
     }
 
     public void sendData(byte[] data)
