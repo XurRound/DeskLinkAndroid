@@ -1,14 +1,11 @@
 package me.xurround.desklink.fragments.tools;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,22 +19,14 @@ import androidx.navigation.Navigation;
 
 import me.xurround.desklink.R;
 import me.xurround.desklink.logic.AppSettings;
-import me.xurround.desklink.logic.ui.FileDialog;
 import me.xurround.desklink.logic.ui.OnSwipeTouchListener;
 import me.xurround.desklink.viewmodels.DeskControlViewModel;
 
 public class SimpleDeskControlToolFragment extends Fragment
 {
-    private ActivityResultLauncher<String[]> launcher;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        launcher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), result ->
-        {
-            Log.d("FILE_PICKER", result.getPath());
-        });
-
         super.onCreate(savedInstanceState);
     }
 
@@ -89,16 +78,7 @@ public class SimpleDeskControlToolFragment extends Fragment
 
         loadPresentationHelperButton.setOnClickListener(v ->
         {
-            /*FileDialog fileDialog = new FileDialog(requireActivity(), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), null);
-            fileDialog.setFileListener(file ->
-            {
-                Log.d("FILE_PICKER", file.getAbsolutePath());
-                Bundle bundle = new Bundle();
-                bundle.putString("FILE_PATH", file.getAbsolutePath());
-                Navigation.findNavController(view).navigate(R.id.action_desk_to_presentation, bundle);
-            });
-            fileDialog.showDialog();*/
-            launcher.launch(new String[] { "application/vnd.openxmlformats-officedocument.presentationml.presentation" });
+            Navigation.findNavController(view).navigate(R.id.action_desk_to_presentation);
         });
 
         return view;
