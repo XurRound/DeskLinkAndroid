@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.xurround.desklink.interfaces.RegisterCallback;
+import me.xurround.desklink.interfaces.RegisterQRCallback;
 import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.logic.network.DiscoveryListProcessor;
 import me.xurround.desklink.logic.network.RegistrationService;
@@ -61,9 +63,40 @@ public class ConnectViewModel extends AndroidViewModel
         discoveryListProcessor.stop();
     }
 
-    public void beginRegister(Device device, RegisterCallback registerCallback)
+    public void beginRegisterByDevice(Device device, RegisterCallback registerCallback)
     {
         RegistrationService registrationService = new RegistrationService(15500, registerCallback);
-        registrationService.tryRegister(device, "I AM", AppSettings.getInstance(getApplication()).getIdentifier());
+        registrationService.tryRegister(device, AppSettings.getInstance(getApplication()).getDeviceName(), AppSettings.getInstance(getApplication()).getIdentifier());
+    }
+
+    public void beginRegisterByQR(String data, RegisterQRCallback registerCallback)
+    {
+        String[] parts = data.split("\\|");
+        if (parts.length != 4 || !Objects.equals(parts[0], "DLS"))
+            return;
+        String devId = parts[1];
+        String[] ips = parts[2].split(",");
+        String devName = parts[3];
+        RegistrationService registrationService = new RegistrationService(15500, new RegisterCallback()
+        {
+            @Override
+            public void onSuccess(String ip)
+            {
+                registerCallback.onSuccess(new Device(devId, devName, ip));
+            }
+
+            @Override
+            public void onFailure()
+            {
+                registerCallback.onFailure();
+            }
+        });
+        for (String ip : ips)
+        {
+            registrationService.tryRegister(
+                    new Device(devId, devName, ip),
+                    AppSettings.getInstance(getApplication()).getDeviceName(),
+                    AppSettings.getInstance(getApplication()).getIdentifier());
+        }
     }
 }

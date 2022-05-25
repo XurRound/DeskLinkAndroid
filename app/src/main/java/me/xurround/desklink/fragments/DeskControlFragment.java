@@ -1,5 +1,8 @@
 package me.xurround.desklink.fragments;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,10 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,6 +27,7 @@ import me.xurround.desklink.fragments.tools.AirmouseToolFragment;
 import me.xurround.desklink.fragments.tools.KeyboardToolFragment;
 import me.xurround.desklink.fragments.tools.SimpleDeskControlToolFragment;
 import me.xurround.desklink.fragments.tools.TouchpadToolFragment;
+import me.xurround.desklink.interfaces.ConnectCallback;
 import me.xurround.desklink.viewmodels.DeskControlViewModel;
 
 public class DeskControlFragment extends Fragment
@@ -37,11 +45,10 @@ public class DeskControlFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_desk_control, container, false);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(DeskControlViewModel.class);
+
         Button disconnectButton = view.findViewById(R.id.disconnect_btn);
         BottomNavigationView deskToolbar = view.findViewById(R.id.desk_toolbar);
-
-        deskToolbar.setSelectedItemId(R.id.tool_touchpad);
-        navigate(new TouchpadToolFragment(), false);
 
         Bundle args = requireArguments();
         String deviceAddress = args.getString("ADDRESS", "192.168.0.7");
@@ -50,19 +57,12 @@ public class DeskControlFragment extends Fragment
         TextView deviceNameTV = view.findViewById(R.id.dc_device_name);
         deviceNameTV.setText(deviceName);
 
+        ImageView connectionStatus = view.findViewById(R.id.connection_status);
+        TextView connectionText = view.findViewById(R.id.connection_text);
+
         deskToolbar.setOnItemSelectedListener(item ->
         {
-            if (item.getItemId() == R.id.tool_airmouse)
-            {
-                viewModel.sendData(new byte[] { 7 });
-                navigate(new AirmouseToolFragment());
-            }
-            if (item.getItemId() == R.id.tool_touchpad)
-                navigate(new TouchpadToolFragment());
-            if (item.getItemId() == R.id.tool_powerpoint)
-                navigate(new SimpleDeskControlToolFragment());
-            if (item.getItemId() == R.id.tool_keyboard)
-                navigate(new KeyboardToolFragment());
+            viewModel.getCurrentToolMD().setValue(item.getItemId());
             return true;
         });
 
@@ -71,8 +71,66 @@ public class DeskControlFragment extends Fragment
             Navigation.findNavController(view).navigateUp();
         });
 
-        viewModel = new ViewModelProvider(requireActivity()).get(DeskControlViewModel.class);
-        viewModel.setupConnection(deviceAddress, 15500);
+        ProgressDialog progressDialog = ProgressDialog.show(requireContext(),
+                "Awaiting connection",
+                "Just a few seconds...",
+                true);
+        progressDialog.setCancelable(true);
+        progressDialog.setOnCancelListener(dialog ->
+        {
+            Navigation.findNavController(view).navigateUp();
+        });
+
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        viewModel.setupConnection(deviceAddress, 15500, new ConnectCallback()
+        {
+            @Override
+            public void onSuccess()
+            {
+                handler.post(() ->
+                {
+                    progressDialog.dismiss();
+                    connectionStatus.setColorFilter(Color.GREEN);
+                    connectionText.setText("Connected");
+                });
+            }
+
+            @Override
+            public void onFailure()
+            {
+                handler.post(() ->
+                {
+                    progressDialog.dismiss();
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Connection failure")
+                            .setMessage("Device rejected your connection")
+                            .setOnCancelListener(dialog ->
+                            {
+                                Navigation.findNavController(view).navigateUp();
+                            })
+                            .setPositiveButton("Ok", (v, e) ->
+                            {
+                                Navigation.findNavController(view).navigateUp();
+                            })
+                            .show();
+                });
+            }
+        });
+
+        deskToolbar.setSelectedItemId(viewModel.getCurrentToolMD().getValue());
+
+        viewModel.getCurrentToolMD().observe(getViewLifecycleOwner(), id ->
+        {
+            if (id == R.id.tool_airmouse)
+                navigate(new AirmouseToolFragment());
+            if (id == R.id.tool_touchpad)
+                navigate(new TouchpadToolFragment());
+            if (id == R.id.tool_powerpoint)
+                navigate(new SimpleDeskControlToolFragment());
+            if (id == R.id.tool_keyboard)
+                navigate(new KeyboardToolFragment());
+        });
 
         return view;
     }
@@ -82,6 +140,7 @@ public class DeskControlFragment extends Fragment
     {
         super.onDestroy();
         viewModel.closeConnection();
+        viewModel.resetCurrentTool();
     }
 
     private void navigate(Fragment fragment)

@@ -26,8 +26,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_computer"
                 app:tint="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintEnd_toStartOf="@+id/device_data"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -35,20 +34,23 @@
 
             <LinearLayout
                 android:id="@+id/device_data"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@+id/phone_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/disconnect_btn"
                 android:orientation="vertical"
                 android:layout_margin="10dp">
 
                 <TextView
                     android:id="@+id/dc_device_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Device name"/>
+                    android:text="Device name"
+                    android:lines="1"
+                    android:ellipsize="end"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -63,9 +65,10 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:tint="#00ff00"/>
+                        app:tint="#ff0000"/>
 
                     <TextView
+                        android:id="@+id/connection_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -73,7 +76,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginStart="5dp"
                         android:textSize="14sp"
-                        android:text="Connected"/>
+                        android:text="Disconnected"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,9 +86,8 @@
                 android:id="@+id/disconnect_btn"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/device_data"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
                 style="@style/ConnectButton"
                 android:text="Disconnect"/>
 

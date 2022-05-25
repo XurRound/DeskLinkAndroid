@@ -1,7 +1,9 @@
 package me.xurround.desklink.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -13,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,6 +46,11 @@ public class BrowserFragment extends Fragment
         ImageButton settingsButton = view.findViewById(R.id.settings_btn);
         RecyclerView kdView = view.findViewById(R.id.kd_devices_list);
         FloatingActionButton connectDeviceButton = view.findViewById(R.id.connect_device_btn);
+        TextView deviceName = view.findViewById(R.id.device_name);
+
+        LinearLayout browserPlaceholder = view.findViewById(R.id.browser_placeholder);
+
+        deviceName.setText(AppSettings.getInstance(requireContext()).getDeviceName());
 
         MainViewModel mvm = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
@@ -50,18 +59,43 @@ public class BrowserFragment extends Fragment
         kdView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration divider = new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
         kdView.addItemDecoration(divider);
+        kdView.setItemAnimator(null);
         kdView.setAdapter(new KnownDeviceListAdapter(kds, kd ->
         {
             Bundle bundle = new Bundle();
             bundle.putString("ADDRESS", kd.getIpAddress());
             bundle.putString("NAME", kd.getName());
             Navigation.findNavController(view).navigate(R.id.action_browser_to_desk_control, bundle);
+        }, (device) ->
+        {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Remove device")
+                    .setMessage("You will not be able to control " + device.getName() + " anymore")
+                    .setCancelable(true)
+                    .setPositiveButton("Remove", (v, d) ->
+                    {
+                        mvm.getKnownDevicesMD().getValue().remove(device);
+                        AppSettings.getInstance(requireContext()).saveKnownDevices(mvm.getKnownDevicesMD().getValue());
+                        mvm.getKnownDevicesMD().postValue(mvm.getKnownDevicesMD().getValue());
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         }));
         mvm.getKnownDevicesMD().observe(getViewLifecycleOwner(), knownDevices ->
         {
             kds.clear();
             kds.addAll(knownDevices);
             Objects.requireNonNull(kdView.getAdapter()).notifyItemRangeChanged(0, knownDevices.size());
+            if (knownDevices.isEmpty())
+            {
+                browserPlaceholder.setVisibility(View.VISIBLE);
+                kdView.setVisibility(View.GONE);
+            }
+            else
+            {
+                browserPlaceholder.setVisibility(View.GONE);
+                kdView.setVisibility(View.VISIBLE);
+            }
         });
         mvm.setKnownDevices(AppSettings.getInstance(requireContext()).loadKnownDevices());
 

@@ -75,10 +75,10 @@ public class ConnectFragment extends Fragment
         DeviceListAdapter dlAdapter = new DeviceListAdapter(discoveredDevices, device ->
         {
             List<KnownDevice> knownDevices = AppSettings.getInstance(requireContext()).loadKnownDevices();
-            viewModel.beginRegister(device, new RegisterCallback()
+            viewModel.beginRegisterByDevice(device, new RegisterCallback()
             {
                 @Override
-                public void onSuccess()
+                public void onSuccess(String ip)
                 {
                     handler.post(() ->
                     {
@@ -98,6 +98,7 @@ public class ConnectFragment extends Fragment
                             knownDevices.add(new KnownDevice(device, descText.getText().toString()));
                             AppSettings.getInstance(requireContext()).saveKnownDevices(knownDevices);
                             Toast.makeText(getContext(), "Successfully added " + device.getName(), Toast.LENGTH_SHORT).show();
+                            Navigation.findNavController(view).navigateUp();
                         });
                         builder.setNegativeButton("Cancel", (d, w) -> { });
                         builder.show();

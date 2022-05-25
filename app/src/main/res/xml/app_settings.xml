@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:key="DLC_SETTINGS">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="General">
+
+        <EditTextPreference android:title="Device name"
+            android:key="device_name"
+            app:useSimpleSummaryProvider="true"
+            android:dialogTitle="Device name"
+            android:positiveButtonText="Set"
+            android:negativeButtonText="Cancel"/>
+
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="Cursor">
 
-        <SeekBarPreference android:title="Airmouse sensitivity"
-            android:key="airmouse_sensitivity"
-            android:defaultValue="50"
-            android:max="100"
-            app:showSeekBarValue="true"/>
-
         <SeekBarPreference android:title="Touchpad sensitivity"
             android:key="touchpad_sensitivity"
-            android:defaultValue="50"
-            android:max="100"
+            android:defaultValue="7"
+            android:max="15"
+            app:min="1"
             app:showSeekBarValue="true"/>
+
+        <SeekBarPreference android:title="Airmouse sensitivity"
+            android:key="airmouse_sensitivity"
+            android:defaultValue="7"
+            android:max="15"
+            app:min="1"
+            app:showSeekBarValue="true"/>
+
+        <CheckBoxPreference android:title="Hook volume buttons"
+            android:key="am_volume_hook"
+            android:summary="Make volume buttons emulate mouse clicks in airmouse mode"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Presentation">
 
         <CheckBoxPreference android:title="Hook volume buttons"
-            android:key="volume_hook"
-            android:summary="Use volume control buttons to switch between slides"/>
+            android:key="pr_volume_hook"
+            android:summary="Use volume control buttons to switch between slides"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 

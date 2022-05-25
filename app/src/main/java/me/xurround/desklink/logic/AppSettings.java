@@ -2,7 +2,6 @@ package me.xurround.desklink.logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,6 +24,13 @@ public class AppSettings
     {
         sharedPreferences = context.getSharedPreferences(AppSettings.APP_SETTINGS, Context.MODE_PRIVATE);
         gson = new Gson();
+        if (checkFirstRun())
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("device_name", android.os.Build.MODEL);
+            editor.putString("UID", Helpers.generateUID());
+            editor.apply();
+        }
     }
 
     public boolean checkFirstRun()
@@ -39,17 +45,34 @@ public class AppSettings
         return false;
     }
 
+    public Integer getTouchpadSensitivity()
+    {
+        return sharedPreferences.getInt("touchpad_sensitivity", 7);
+    }
+
+    public Integer getAirmouseSensitivity()
+    {
+        return sharedPreferences.getInt("airmouse_sensitivity", 7);
+    }
+
+    public Boolean getAMVolumeHook()
+    {
+        return sharedPreferences.getBoolean("am_volume_hook", true);
+    }
+
+    public Boolean getPRVolumeHook()
+    {
+        return sharedPreferences.getBoolean("pr_volume_hook", true);
+    }
+
     public String getIdentifier()
     {
-        if (checkFirstRun())
-        {
-            String uid = Helpers.generateUID();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("UID", uid);
-            editor.apply();
-            return uid;
-        }
         return sharedPreferences.getString("UID", Helpers.generateUID());
+    }
+
+    public String getDeviceName()
+    {
+        return sharedPreferences.getString("device_name", android.os.Build.MODEL);
     }
 
     public void saveKnownDevices(List<KnownDevice> devices)

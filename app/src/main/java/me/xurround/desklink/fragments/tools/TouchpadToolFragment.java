@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import me.xurround.desklink.R;
+import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.logic.ui.TouchpadGestureListener;
 import me.xurround.desklink.viewmodels.DeskControlViewModel;
 
@@ -39,6 +40,8 @@ public class TouchpadToolFragment extends Fragment
         ConstraintLayout tpButtons = view.findViewById(R.id.touchpad_buttons);
 
         DeskControlViewModel viewModel = new ViewModelProvider(requireActivity()).get(DeskControlViewModel.class);
+
+        float sensitivity = (3 + AppSettings.getInstance(requireContext()).getTouchpadSensitivity()) / 5f;
 
         TouchpadGestureListener gestureListener = new TouchpadGestureListener(event ->
         {
@@ -74,12 +77,12 @@ public class TouchpadToolFragment extends Fragment
                     }
                     break;
                 case MotionEvent.ACTION_DOWN:
-                    axisX = (int)event.getX();
-                    axisY = (int)event.getY();
+                    axisX = Math.round(event.getX() * sensitivity);
+                    axisY = Math.round(event.getY() * sensitivity);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    int x = (int)event.getX();
-                    int y = (int)event.getY();
+                    int x = Math.round(event.getX() * sensitivity);
+                    int y = Math.round(event.getY() * sensitivity);
                     int dX = x - axisX;
                     int dY = y - axisY;
                     axisX = x;

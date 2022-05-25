@@ -21,11 +21,13 @@ public class KnownDeviceListAdapter extends RecyclerView.Adapter<KnownDeviceList
     private final List<KnownDevice> devices;
 
     private final ConnectClickListener connectClickListener;
+    private final DeviceRemoveListener deviceRemoveListener;
 
-    public KnownDeviceListAdapter(List<KnownDevice> devices, ConnectClickListener connectClickListener)
+    public KnownDeviceListAdapter(List<KnownDevice> devices, ConnectClickListener connectClickListener, DeviceRemoveListener deviceRemoveListener)
     {
         this.devices = devices;
         this.connectClickListener = connectClickListener;
+        this.deviceRemoveListener = deviceRemoveListener;
     }
 
     @NonNull
@@ -51,6 +53,11 @@ public class KnownDeviceListAdapter extends RecyclerView.Adapter<KnownDeviceList
             if (connectClickListener != null)
                 connectClickListener.connect(device);
         });
+        holder.itemView.setOnLongClickListener(v ->
+        {
+            deviceRemoveListener.onDeviceRemove(device);
+            return true;
+        });
     }
 
     @Override
@@ -74,5 +81,10 @@ public class KnownDeviceListAdapter extends RecyclerView.Adapter<KnownDeviceList
             descTV = itemView.findViewById(R.id.kd_device_desc);
             connectBtn = itemView.findViewById(R.id.kd_connect_btn);
         }
+    }
+
+    public interface DeviceRemoveListener
+    {
+        void onDeviceRemove(KnownDevice device);
     }
 }

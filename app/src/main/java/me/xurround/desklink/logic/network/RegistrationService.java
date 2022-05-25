@@ -38,7 +38,7 @@ public class RegistrationService
                     if (buffer[0] == 0x77)
                     {
                         if (buffer[1] == (byte)0x01)
-                            registerCallback.onSuccess();
+                            registerCallback.onSuccess(new String(buffer, 2, packet.getLength() - 2, StandardCharsets.UTF_8));
                         else
                             registerCallback.onFailure();
                     }
@@ -57,12 +57,15 @@ public class RegistrationService
     {
         byte[] tdNameBytes = tdName.getBytes(StandardCharsets.UTF_8);
         byte[] tdUIDBytes = tdUID.getBytes(StandardCharsets.UTF_8);
-        byte[] data = new byte[tdNameBytes.length + tdUIDBytes.length + 3];
+        byte[] devIp = device.getIpAddress().getBytes(StandardCharsets.UTF_8);
+        byte[] data = new byte[tdNameBytes.length + tdUIDBytes.length + devIp.length + 4];
         data[0] = (byte)0xF7;
         data[1] = (byte)tdNameBytes.length;
         data[2] = (byte)tdUIDBytes.length;
-        System.arraycopy(tdNameBytes, 0, data, 3, tdNameBytes.length);
-        System.arraycopy(tdUIDBytes, 0, data, tdNameBytes.length + 3, tdUIDBytes.length);
+        data[3] = (byte)devIp.length;
+        System.arraycopy(tdNameBytes, 0, data, 4, tdNameBytes.length);
+        System.arraycopy(tdUIDBytes, 0, data, tdNameBytes.length + 4, tdUIDBytes.length);
+        System.arraycopy(devIp, 0, data, tdNameBytes.length + tdUIDBytes.length + 4, devIp.length);
         new Thread(() ->
         {
             try

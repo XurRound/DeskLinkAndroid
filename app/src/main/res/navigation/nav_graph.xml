@@ -72,5 +72,16 @@
         android:id="@+id/connectQRFragment"
         android:name="me.xurround.desklink.fragments.ConnectQRFragment"
         android:label="fragment_connect_qr"
-        tools:layout="@layout/fragment_connect_qr" />
+        tools:layout="@layout/fragment_connect_qr" >
+        <action
+            android:id="@+id/action_qr_to_browser"
+            app:destination="@id/browserFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>

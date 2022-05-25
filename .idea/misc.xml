@@ -26,8 +26,9 @@
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/touchpad_background.xml" value="0.2615" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/drawable/touchpad_buttons_background.xml" value="0.2615" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/browser_placeholder.xml" value="0.30012825994014536" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/device_entry.xml" value="0.30012825994014536" />
-        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_browser.xml" value="0.33" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_browser.xml" value="0.25" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_connect.xml" value="0.365625" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_connect_qr.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_desk_control.xml" value="0.33" />
@@ -35,7 +36,7 @@
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_settings.xml" value="0.3070652173913043" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_airmouse.xml" value="0.33" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_keyboard.xml" value="0.3" />
-        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_simple_desk_control.xml" value="0.3" />
+        <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_simple_desk_control.xml" value="0.1" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_tool_touchpad.xml" value="0.20921052631578949" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/fragment_touchpad.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/XurRo/AndroidStudioProjects/DeskLink/app/src/main/res/layout/known_device_entry.xml" value="0.3070652173913043" />

@@ -12,18 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import me.xurround.desklink.R;
+import me.xurround.desklink.logic.AppSettings;
 import me.xurround.desklink.viewmodels.DeskControlViewModel;
 
 public class AirmouseToolFragment extends Fragment
 {
     private SensorManager sensorManager;
     private SensorEventListener sensorEventListener;
-
-    private static final int MEASURE_MULTIPLIER = 4;
 
     private int x = 0;
     private int y = 0;
@@ -41,6 +41,8 @@ public class AirmouseToolFragment extends Fragment
 
         DeskControlViewModel viewModel = new ViewModelProvider(requireActivity()).get(DeskControlViewModel.class);
 
+        float sensitivity = 2 + (AppSettings.getInstance(requireContext()).getAirmouseSensitivity() / 2f);
+
         sensorEventListener = new SensorEventListener()
         {
             @Override
@@ -48,8 +50,8 @@ public class AirmouseToolFragment extends Fragment
             {
                 if (Math.sqrt(event.values[0] * event.values[0] + event.values[1] * event.values[1] + event.values[2] * event.values[2]) < 0.0001)
                     return;
-                x = Math.round(event.values[2] * MEASURE_MULTIPLIER);
-                y = Math.round(event.values[0] * MEASURE_MULTIPLIER);
+                x = Math.round(event.values[2] * sensitivity);
+                y = Math.round(event.values[0] * sensitivity);
                 if (x != 0 || y != 0)
                 {
                     viewModel.sendData(new byte[]
@@ -71,20 +73,32 @@ public class AirmouseToolFragment extends Fragment
         Sensor gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(sensorEventListener, gyroscope, SensorManager.SENSOR_DELAY_FASTEST);
 
-        viewModel.setHardwareKeyEventListener(k ->
+        if (AppSettings.getInstance(requireContext()).getAMVolumeHook())
         {
-            if (k == KeyEvent.KEYCODE_VOLUME_UP)
+            viewModel.setHardwareKeyEventListener(k ->
             {
-                viewModel.sendData(new byte[] { (byte)0xB2 });
-                return true;
-            }
-            if (k == KeyEvent.KEYCODE_VOLUME_DOWN)
+                if (k == KeyEvent.KEYCODE_VOLUME_UP)
+                {
+                    viewModel.sendData(new byte[] { (byte)0xB2 });
+                    return true;
+                }
+                if (k == KeyEvent.KEYCODE_VOLUME_DOWN)
+                {
+                    viewModel.sendData(new byte[] { (byte)0xB1 });
+                    return true;
+                }
+                return false;
+            });
+        }
+        else
+        {
+            viewModel.setHardwareKeyEventListener(null);
+            ConstraintLayout amTouchPanel = view.findViewById(R.id.am_touch_panel);
+            amTouchPanel.setOnClickListener(v ->
             {
                 viewModel.sendData(new byte[] { (byte)0xB1 });
-                return true;
-            }
-            return false;
-        });
+            });
+        }
 
         return view;
     }
